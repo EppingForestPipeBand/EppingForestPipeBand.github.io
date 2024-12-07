@@ -1,0 +1,23 @@
+title: Epping Forest Pipe Band
+description: Traditional Scottish Pipe Band based in Essex
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+
+# Collections
+collections:
+  pages:
+    output: true
+    permalink: /:path/
+
+# Include _pages directory
+include:
+  - _pages
+
+# Default front matter
+defaults:
+  - scope:
+      path: "_pages"
+    values:
+      layout: "page" 
