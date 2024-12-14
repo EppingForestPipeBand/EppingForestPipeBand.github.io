@@ -22,7 +22,6 @@ jobs:
         run: |
           for img in assets/images/fulls/*.jpg; do
             filename=$(basename "$img")
-            if [ ! -f "assets/images/thumbs/$filename" ]; then
               convert "$img" -resize "360x360^" -gravity center -extent 360x360 "assets/images/thumbs/$filename"
             fi
           done
