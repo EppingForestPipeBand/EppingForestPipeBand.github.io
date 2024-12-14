@@ -1349,7 +1349,6 @@ input, select, textarea {
 				display: none;
 			}
 
-			.poptrox-popup .closer,
 			.poptrox-popup .nav-previous,
 			.poptrox-popup .nav-next {
 				display: none !important;
