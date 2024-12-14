@@ -1,0 +1,35 @@
+name: Generate Image Thumbnails
+
+on:
+  push:
+    paths:
+      - 'assets/images/fulls/**'
+  workflow_dispatch:
+
+jobs:
+  thumbnails:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ImageMagick
+        run: sudo apt-get update && sudo apt-get install -y imagemagick
+
+      - name: Create thumbs directory if not exists
+        run: mkdir -p assets/images/thumbs
+
+      - name: Generate thumbnails
+        run: |
+          for img in assets/images/fulls/*.jpg; do
+            filename=$(basename "$img")
+            if [ ! -f "assets/images/thumbs/$filename" ]; then
+              convert "$img" -resize "360x360^" -gravity center -extent 360x360 "assets/images/thumbs/$filename"
+            fi
+          done
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add assets/images/thumbs/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Generate thumbnails" && git push) 

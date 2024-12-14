@@ -1,23 +1,21 @@
-title: Epping Forest Pipe Band
-description: Traditional Scottish Pipe Band based in Essex
+title: The Epping Forest Pipe Band
+author: The Epping Forest Pipe Band
+email: secretary@efpb.org
+description: >-
+  Epping Forest Pipe Band shares the stirring sounds of Scotland, performing since 1974. Join us in celebrating music, tradition, and community.
+
+social:
+  twitter: EFPB_UK
+  facebook: EppingForestPipeBand
+  instagram: epping_forest_pipe_band_
+  github: EppingForestPipeBand
 
 # Build settings
 markdown: kramdown
-permalink: pretty
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
 
-# Collections
 collections:
-  pages:
+  images:
     output: true
-    permalink: /:path/
-
-# Include _pages directory
-include:
-  - _pages
-
-# Default front matter
-defaults:
-  - scope:
-      path: "_pages"
-    values:
-      layout: "page" 
