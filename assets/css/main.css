@@ -1223,7 +1223,7 @@ input, select, textarea {
 			background-repeat: no-repeat;
 			background-size: 3em;
 			height: 5em;
-			opacity: 0;
+			opacity: 1.0;
 			position: absolute;
 			right: 0;
 			top: 0;
