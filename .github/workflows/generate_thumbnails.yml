@@ -6,14 +6,21 @@ on:
       - 'assets/images/fulls/**'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   thumbnails:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install ImageMagick
-        run: sudo apt-get update && sudo apt-get install -y imagemagick
+      - name: Install ImageMagick 7
+        run: |
+          wget https://imagemagick.org/archive/binaries/magick
+          chmod +x magick
+          sudo mv magick /usr/local/bin/
+          magick -version
 
       - name: Create thumbs directory if not exists
         run: mkdir -p assets/images/thumbs
@@ -30,4 +37,4 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add assets/images/thumbs/
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Generate thumbnails" && git push) 
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Generate thumbnails" && git push)
