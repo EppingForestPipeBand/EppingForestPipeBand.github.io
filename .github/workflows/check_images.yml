@@ -1,5 +1,5 @@
-name: Check Image-Markdown Correspondence
-
+name: check_images
+# Check if all images have corresponding markdown files and vice versa
 on:
   push:
     paths:

@@ -1,15 +1,19 @@
-# Sample workflow for building and deploying a Jekyll site to GitHub Pages
-name: Deploy Jekyll with GitHub Pages dependencies preinstalled
-
+name: deploy_site
+# Deploy the site to GitHub Pages
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
+    paths-ignore:
+      - 'assets/images/fulls/**'
+  workflow_run:
+    workflows: ["generate_thumbnails"]
+    types:
+      - completed
+    branches: ["main"]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+# We want to ignore changes in the assets/images/fulls directory as they trigger the thumbnails workflow.
+# The completion of the thumbnails workflow will then trigger this workflow via the workflow_run event.
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
@@ -22,9 +26,9 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name != 'workflow_run' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -53,7 +57,6 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 
-  # Deployment job
   deploy:
     environment:
       name: github-pages
