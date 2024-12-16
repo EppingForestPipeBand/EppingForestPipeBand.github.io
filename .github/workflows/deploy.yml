@@ -35,15 +35,18 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2'
-          bundler-cache: true
 
-      - name: Build with Jekyll
+      - name: Install Dependencies
         run: |
           gem install bundler
           bundle install
-          bundle exec jekyll build
+
+      - name: Build with Jekyll
+        run: bundle exec jekyll build
         env:
           JEKYLL_ENV: production
+          PAGES_REPO_NWO: ${{ github.repository }}
+          JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
