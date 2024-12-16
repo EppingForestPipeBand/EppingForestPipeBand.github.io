@@ -1,5 +1,6 @@
 # Epping Forest Pipe Band Website
 
+[![Deploy Status](https://github.com/EppingForestPipeBand/efpb-org/actions/workflows/deploy.yml/badge.svg)](https://github.com/EppingForestPipeBand/efpb-org/actions/workflows/deploy.yml)
 [![Built with Jekyll](https://img.shields.io/badge/built%20with-Jekyll-red.svg)](https://jekyllrb.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 

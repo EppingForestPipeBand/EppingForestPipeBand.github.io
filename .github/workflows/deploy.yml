@@ -31,6 +31,43 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Check markdown files have corresponding images
+        run: |
+          # Check if each markdown file has a corresponding full-size image
+          for md_file in _images/*.md; do
+            base_name=$(basename "$md_file" .md)
+            if [ ! -f "assets/images/fulls/$base_name.jpg" ]; then
+              echo "Error: Missing image for $md_file"
+              echo "Expected: assets/images/fulls/$base_name.jpg"
+              echo "Please ensure that all _images/*.md files have corresponding images in assets/images/fulls/"
+              exit 1
+            fi
+          done
+
+          # Check if each markdown file has a corresponding thumbnail image
+          for md_file in _images/*.md; do
+            base_name=$(basename "$md_file" .md)
+            if [ ! -f "assets/images/thumbs/$base_name.jpg" ]; then
+              echo "Error: Missing thumbnail for $md_file"
+              echo "Expected: assets/images/thumbs/$base_name.jpg"
+              echo "Please ensure that all _images/*.md files have corresponding thumbnails in assets/images/thumbs/"
+              exit 1
+            fi
+          done
+
+          # Check if each image has a corresponding markdown file
+          for img_file in assets/images/fulls/*.jpg; do
+            base_name=$(basename "$img_file" .jpg)
+            if [ ! -f "_images/$base_name.md" ]; then
+              echo "⚠️ Warning: Missing markdown file for $img_file"
+              echo "Expected: _images/$base_name.md"
+              echo "Please ensure that all images in assets/images/fulls/ have corresponding markdown files in _images/"
+              echo "This will not prevent the site from building, but this image will not be displayed without the corresponding markdown file."
+            fi
+          done
+
+          echo "✅ All _images markdown files have corresponding full and thumbnail images"
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
