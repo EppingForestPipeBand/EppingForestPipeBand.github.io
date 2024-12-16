@@ -12,3 +12,9 @@ variable "domain" {
   sensitive   = false
   default     = "efpb.org"
 }
+
+variable "github_token" {
+  description = "The GitHub token needed to access GitHub"
+  type        = string
+  sensitive   = true
+}
