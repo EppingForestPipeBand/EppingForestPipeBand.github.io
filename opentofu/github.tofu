@@ -5,6 +5,7 @@ import {
 
 resource "github_repository" "website" {
   name = "efpb-org"
+  visibility = "public"
   
   pages {
     build_type = "workflow"
