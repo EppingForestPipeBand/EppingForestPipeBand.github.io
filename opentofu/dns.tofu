@@ -55,12 +55,4 @@ resource "cloudflare_record" "email" {
   proxied  = false
 }
 
-resource "cloudflare_record" "cname_www" {
-  name    = "www"
-  type    = "CNAME"
-  zone_id = data.cloudflare_zone.zone.id
-  content = var.domain
-  proxied = true
-}
-
 # revert a record to 173.254.30.93
