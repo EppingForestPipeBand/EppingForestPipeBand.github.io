@@ -31,7 +31,7 @@ jobs:
         run: |
           for img in assets/images/fulls/*.jpg; do
             filename=$(basename "$img")
-              magick "$img" -resize "360x" "assets/images/thumbs/$filename"
+              magick "$img" -resize "500x" "assets/images/thumbs/$filename"
           done
 
       - name: Commit and push if changed
