@@ -4,7 +4,6 @@ on:
   push:
     paths:
       - 'assets/images/fulls/**'
-  workflow_dispatch:
 
 permissions:
   contents: write
@@ -29,6 +28,7 @@ jobs:
 
       - name: Generate thumbnails
         run: |
+          rm assets/images/thumbs/*  # Remove outdated thumbnails to ensure newly generated ones reflect the latest full-size images
           for img in assets/images/fulls/*.jpg; do
             filename=$(basename "$img")
               magick "$img" -resize "500x" "assets/images/thumbs/$filename"

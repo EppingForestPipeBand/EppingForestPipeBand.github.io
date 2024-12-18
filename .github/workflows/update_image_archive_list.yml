@@ -1,0 +1,48 @@
+name: Update Image List in README
+
+on:
+  push:
+    paths:
+      - "assets/images/fulls/**"
+
+permissions:
+  contents: write
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate Image List
+        id: generate-list
+        run: |
+          {
+            echo "[//]: # (This file is managed by the update_image_archive_list.yml GitHub Action. Changes will be overwritten.)" 
+            echo "# The Epping Forest Pipe Band Image Archive Gallery"
+            echo "" 
+            echo "Thank you for taking the time to view our gallery, exploring some of the photographic history of our band. We hope you enjoy the images of our band members and performances." 
+            echo "" 
+            for img in $(ls assets/images/fulls); do
+              thumb="assets/images/thumbs/$img"
+              full="assets/images/fulls/$img"
+              echo "- [![Thumbnail]($thumb)]($full)" 
+            done
+            echo "" 
+            echo "Return to the [Main Gallery](https://efpb.org)" 
+            echo "" 
+          } > archive/README.md
+
+      - name: Commit and Push Changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add archive/README.md
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Update archive/README.md with latest image list"
+          git push
