@@ -34,9 +34,30 @@ jobs:
               magick "$img" -resize "500x" "assets/images/thumbs/$filename"
           done
 
+      - name: Generate Image List
+        id: generate-list
+        run: |
+          {
+            echo "[//]: # (This file is managed by the update_image_archive_list.yml GitHub Action. Changes will be overwritten.)" 
+            echo "# Image Archive Gallery"
+            echo "" 
+            echo "Thank you for taking the time to view our gallery, exploring some of the photographic history of our band. We hope you enjoy the images of our band members and performances." 
+            echo "" 
+            for img in $(ls assets/images/fulls); do
+              thumb="assets/images/thumbs/$img"
+              full="assets/images/fulls/$img"
+              echo "- [![Thumbnail]($thumb)]($full)" 
+            done
+            echo "" 
+            echo "Return to the [Main Gallery](https://efpb.org)" 
+            echo "" 
+          } > archive/README.md
+
+
       - name: Commit and push if changed
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add assets/images/thumbs/
+          git add archive/README.md
           git diff --quiet && git diff --staged --quiet || (git commit -m "Generate thumbnails" && git push)
