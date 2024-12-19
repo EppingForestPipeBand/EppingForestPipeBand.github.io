@@ -5,9 +5,10 @@ on:
     branches: ["main"]
     paths-ignore:
       - '.github/**'
+  workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -68,7 +69,7 @@ jobs:
             echo "Thank you for taking the time to view our gallery, exploring some of the photographic history of our band. We hope you enjoy the images of our band members and performances." 
             echo "" 
             path="assets/images"
-            url="https://${{ vars.DOMAIN }}/$path"
+            url="https://efpb.org/$path"
             for img in $(ls $path/fulls); do
               thumb="$url/thumbs/$img"
               full="$url/fulls/$img"
