@@ -23,7 +23,6 @@ Thank you for taking the time to view our gallery, exploring some of the photogr
 - [![18.jpg](https://efpb.org/assets/images/thumbs/18.jpg)](https://efpb.org/assets/images/fulls/18.jpg)
 - [![19.jpg](https://efpb.org/assets/images/thumbs/19.jpg)](https://efpb.org/assets/images/fulls/19.jpg)
 - [![20.jpg](https://efpb.org/assets/images/thumbs/20.jpg)](https://efpb.org/assets/images/fulls/20.jpg)
-- [![test.jpg](https://efpb.org/assets/images/thumbs/test.jpg)](https://efpb.org/assets/images/fulls/test.jpg)
 
 Return to the [Main Gallery](https://efpb.org)
 
