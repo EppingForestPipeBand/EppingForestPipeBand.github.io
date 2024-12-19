@@ -4,16 +4,7 @@ on:
   push:
     branches: ["main"]
     paths-ignore:
-      - 'assets/images/fulls/**'
       - '.github/**'
-  workflow_run:
-    workflows: ["generate_thumbnails"]
-    types:
-      - completed
-    branches: ["main"]
-
-# We want to ignore changes in the assets/images/fulls directory as they trigger the thumbnails workflow.
-# The completion of the thumbnails workflow will then trigger this workflow via the workflow_run event.
 
 permissions:
   contents: read
@@ -25,9 +16,75 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  thumbnails:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name != 'workflow_run' }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if we need to generate thumbnails
+        run: |
+          if ! git diff --name-only HEAD^ HEAD | grep -q "assets/images/fulls/"; then
+            echo "No changes detected in assets/images/fulls/, skipping thumbnail generation"
+            exit 0
+          fi
+          echo "Changes detected in assets/images/fulls/, generating thumbnails"
+
+      - name: Install FUSE and ImageMagick 7
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fuse
+          wget -q https://imagemagick.org/archive/binaries/magick
+          chmod +x magick
+          sudo mv magick /usr/local/bin/
+          magick -version
+
+      - name: Create thumbs directory if not exists
+        run: mkdir -p assets/images/thumbs
+
+      - name: Generate thumbnails
+        run: |
+          rm assets/images/thumbs/*  # Remove outdated thumbnails to ensure newly generated ones reflect the latest full-size images
+          for img in assets/images/fulls/*.jpg; do
+            filename=$(basename "$img")
+              magick "$img" -resize "500x" "assets/images/thumbs/$filename"
+          done
+
+      - name: Generate Image List
+        id: generate-list
+        run: |
+          {
+            echo "[//]: # (This file is managed by the update_image_archive_list.yml GitHub Action. Changes will be overwritten.)" 
+            echo "# Image Archive Gallery"
+            echo "" 
+            echo "Thank you for taking the time to view our gallery, exploring some of the photographic history of our band. We hope you enjoy the images of our band members and performances." 
+            echo "" 
+            path="assets/images"
+            url="https://${{ vars.DOMAIN }}/$path"
+            for img in $(ls $path/fulls); do
+              thumb="$url/thumbs/$img"
+              full="$url/fulls/$img"
+              echo "- [![Thumbnail]($thumb)]($full)" 
+            done
+            echo "" 
+            echo "Return to the [Main Gallery](https://efpb.org)" 
+            echo "" 
+          } > archive/README.md
+
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add assets/images/thumbs/
+          git add archive/README.md
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Generate thumbnails" && git push)
+
+  build:
+    needs: thumbnails
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4

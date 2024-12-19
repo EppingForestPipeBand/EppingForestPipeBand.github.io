@@ -34,21 +34,13 @@ As far as we are aware, we are the only Bagpipe band in the world who practices 
 
 We have the following jobs in GitHub Actions:
 1. `deploy.yml` - builds the site and deploys it to GitHub Pages
-2. `generate_thumbnails.yml` - generates thumbnails for images in the gallery
-3. `analyse_workflows.yml` - analyzes GitHub workflow files for security and best practices using zizmor
+1. `analyse_workflows.yml` - analyzes GitHub workflow files for security and best practices using zizmor
 
 #### Deploy
 The `deploy.yml` job is triggered by,
-- a push to the main branch, excluding changes to the `assets/images/fulls` directory.
-- the completion of the `generate_thumbnails.yml` job.
+- a push to the main branch.
 
-This ensures that the site is rebuilt when there are any changes as well as once thumbnails have been generated for any new pictures added to the gallery.
-
-#### Generate Thumbnails
-The `generate_thumbnails.yml` job is triggered by,
-- a push to the main branch of the `assets/images/fulls` directory.
-
-This ensures that the thumbnails are generated for any new pictures added to the gallery.
+This ensures that the site is rebuilt when there are any changes. If there are any changes to the `assets/images/fulls` directory, image thumbnails are also generated.
 
 #### Analyse Workflows
 The `analyse_workflows.yml` job is triggered by,
