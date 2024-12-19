@@ -43,9 +43,11 @@ jobs:
             echo "" 
             echo "Thank you for taking the time to view our gallery, exploring some of the photographic history of our band. We hope you enjoy the images of our band members and performances." 
             echo "" 
-            for img in $(ls assets/images/fulls); do
-              thumb="assets/images/thumbs/$img"
-              full="assets/images/fulls/$img"
+            path="assets/images"
+            url="https://${{ vars.DOMAIN }}/$path"
+            for img in $(ls $path/fulls); do
+              thumb="$url/thumbs/$img"
+              full="$url/fulls/$img"
               echo "- [![Thumbnail]($thumb)]($full)" 
             done
             echo "" 

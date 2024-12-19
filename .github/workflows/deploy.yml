@@ -1,4 +1,4 @@
-name: deploy_site
+name: deploy
 # Deploy the site to GitHub Pages
 on:
   push:
@@ -61,8 +61,8 @@ jobs:
             if [ ! -f "_images/$base_name.md" ]; then
               echo "⚠️ Warning: Missing markdown file for $img_file"
               echo "Expected: _images/$base_name.md"
-              echo "Please ensure that all images in assets/images/fulls/ have corresponding markdown files in _images/"
-              echo "This will not prevent the site from building, but this image will not be displayed without the corresponding markdown file."
+              echo "If you want the image to be displayed, please ensure that it has a corresponding markdown file in _images/"
+              echo "This will not break the build, but the image will not be displayed on the main gallery"
             fi
           done
 

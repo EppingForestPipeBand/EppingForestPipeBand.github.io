@@ -19,3 +19,7 @@ plugins:
 collections:
   images:
     output: true
+
+exclude:
+  - opentofu
+  - .github
