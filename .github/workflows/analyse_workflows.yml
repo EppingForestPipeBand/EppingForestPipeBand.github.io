@@ -1,0 +1,34 @@
+# Analyzes GitHub workflow files for security and best practices using zizmor
+
+name: analyse_workflows
+
+on:
+  push:
+    paths:
+      - '.github/**'
+  schedule:
+    - cron: "1 0 1 * *"
+    
+permissions:
+  contents: write
+
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install zizmor
+        run: |
+          pip install zizmor
+      
+      - name: Run zizmor
+        run: |
+          files="${{ github.event.head_commit.modified }} ${{ github.event.head_commit.added }}"
+          for file in $files; do
+            if [[ $file == .github/workflows/* ]]; then
+              zizmor --pedantic --verbose --format sarif "$file"
+            fi
+          done
+          

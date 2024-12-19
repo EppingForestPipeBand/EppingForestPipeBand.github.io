@@ -5,6 +5,7 @@ on:
     branches: ["main"]
     paths-ignore:
       - 'assets/images/fulls/**'
+      - '.github/**'
   workflow_run:
     workflows: ["generate_thumbnails"]
     types:
