@@ -121,12 +121,10 @@ Additionally, as we are open source, everything here is public, so dinnae write 
 
 ## Contacting Us
 
-
 | Request                                                      | Action                                                                                               |
 |--------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
 | Technical; code, website, bug reports, feature requests      | [Submit an issue](https://github.com/EppingForestPipeBand/EppingForestPipeBand.github.io/issues/new) |
 | Anything else; general enquiries, joining or hiring the band | Email secretary@efpb.org                                                                             |
-
 
 
 ## Thanks
