@@ -25,10 +25,7 @@ jobs:
       
       - name: Run zizmor
         run: |
-          files="${{ github.event.head_commit.modified }} ${{ github.event.head_commit.added }}"
-          for file in $files; do
-            if [[ $file == .github/workflows/* ]]; then
-              zizmor --pedantic --verbose --format sarif "$file"
-            fi
+          for file in $(ls .github/workflows); do
+            zizmor --pedantic --verbose --format sarif "$file"
           done
           
