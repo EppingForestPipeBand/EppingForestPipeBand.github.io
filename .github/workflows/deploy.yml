@@ -25,14 +25,17 @@ jobs:
           fetch-depth: 0
 
       - name: Check if we need to generate thumbnails
+        id: check_changes
         run: |
           if ! git diff --name-only HEAD^ HEAD | grep -q "assets/images/fulls/"; then
             echo "No changes detected in assets/images/fulls/, skipping thumbnail generation"
-            exit 0
+            echo "changes_detected=false" >> $GITHUB_OUTPUT
           fi
           echo "Changes detected in assets/images/fulls/, generating thumbnails"
+          echo "changes_detected=true" >> $GITHUB_OUTPUT
 
       - name: Install FUSE and ImageMagick 7
+        if: steps.check_changes.outputs.changes_detected == 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y fuse
@@ -42,9 +45,11 @@ jobs:
           magick -version
 
       - name: Create thumbs directory if not exists
+        if: steps.check_changes.outputs.changes_detected == 'true'
         run: mkdir -p assets/images/thumbs
 
       - name: Generate thumbnails
+        if: steps.check_changes.outputs.changes_detected == 'true'
         run: |
           rm assets/images/thumbs/*  # Remove outdated thumbnails to ensure newly generated ones reflect the latest full-size images
           for img in assets/images/fulls/*.jpg; do
@@ -54,6 +59,7 @@ jobs:
 
       - name: Generate Image List
         id: generate-list
+        if: steps.check_changes.outputs.changes_detected == 'true'
         run: |
           {
             echo "[//]: # (This file is managed by the update_image_archive_list.yml GitHub Action. Changes will be overwritten.)" 
@@ -75,6 +81,7 @@ jobs:
 
 
       - name: Commit and push if changed
+        if: steps.check_changes.outputs.changes_detected == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"

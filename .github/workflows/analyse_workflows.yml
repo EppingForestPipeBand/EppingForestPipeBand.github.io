@@ -34,3 +34,8 @@ jobs:
         with:
           sarif_file: results.sarif
           category: zizmor
+
+      - name: Security review
+        run: |
+          echo "Security review complete, please check the results at"
+          echo "https://github.com/EppingForestPipeBand/EppingForestPipeBand.github.io/security/code-scanning"
