@@ -68,12 +68,10 @@ jobs:
             echo "" 
             echo "Thank you for taking the time to view our gallery, exploring some of the photographic history of our band. We hope you enjoy the images of our band members and performances." 
             echo "" 
-            path="assets/images"
-            url="https://efpb.org/$path"
-            for img in $(ls $path/fulls); do
-              thumb="$url/thumbs/$img"
-              full="$url/fulls/$img"
-              echo "- [![Thumbnail]($thumb)]($full)" 
+            for img in $(ls assets/images/fulls); do
+              thumb="https://efpb.org/assets/images/thumbs/$img"
+              full="https://efpb.org/assets/images/fulls/$img"
+              echo "- [![$img]($thumb)]($full)" 
             done
             echo "" 
             echo "Return to the [Main Gallery](https://efpb.org)" 
