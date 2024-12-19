@@ -8,9 +8,6 @@ on:
       - '.github/**'
   schedule:
     - cron: "1 0 1 * *"
-    
-permissions:
-  contents: write
 
 jobs:
   zizmor:
