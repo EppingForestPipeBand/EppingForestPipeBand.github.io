@@ -28,14 +28,14 @@ jobs:
       - name: Check if we need to generate thumbnails
         id: check_changes
         run: |
-          if ! git diff --name-only HEAD^ HEAD | grep -q "assets/images/fulls/"; then
-            echo "No changes detected in assets/images/fulls/, skipping thumbnail generation"
-            echo "changes_detected=false" >> $GITHUB_OUTPUT
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]] || git diff --name-only HEAD^ HEAD | grep -q "assets/images/fulls/"; then
+            echo "Changes detected in assets/images/fulls/ or workflow dispatched manually, generating thumbnails"
+            echo "changes_detected=true" >> $GITHUB_OUTPUT
             exit 0
           fi
-          echo "Changes detected in assets/images/fulls/, generating thumbnails"
-          echo "changes_detected=true" >> $GITHUB_OUTPUT
-
+          echo "No changes detected in assets/images/fulls/, skipping thumbnail generation"
+          echo "changes_detected=false" >> $GITHUB_OUTPUT
+         
       - name: Install FUSE and ImageMagick 7
         if: steps.check_changes.outputs.changes_detected == 'true'
         run: |
@@ -65,7 +65,7 @@ jobs:
         run: |
           rm archive/README.md
           {
-            echo "[//]: # (This file is managed by the update_image_archive_list.yml GitHub Action. Changes will be overwritten.)" 
+            echo "[//]: # (This file is managed by the generate-list step in the deploy GitHub Action. Changes will be overwritten.)" 
             echo "# Image Archive Gallery"
             echo "" 
             echo "Thank you for taking the time to view our gallery, exploring some of the photographic history of our band. We hope you enjoy the images of our band members and performances." 
