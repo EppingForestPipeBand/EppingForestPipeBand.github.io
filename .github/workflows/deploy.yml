@@ -6,6 +6,12 @@ on:
     paths-ignore:
       - '.github/**'
   workflow_dispatch:
+    inputs:
+      confirm_manual_deploy:
+        description: 'Are you *sure* a manual deployment is absolutely necessary?'
+        required: true
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -19,6 +25,7 @@ concurrency:
 jobs:
   thumbnails:
     runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_dispatch' || inputs.confirm_manual_deploy
 
     steps:
       - uses: actions/checkout@v4
