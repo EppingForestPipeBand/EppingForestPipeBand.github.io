@@ -53,7 +53,7 @@ jobs:
       - name: Generate thumbnails
         if: steps.check_changes.outputs.changes_detected == 'true'
         run: |
-          rm assets/images/thumbs/*  # Remove outdated thumbnails to ensure newly generated ones reflect the latest full-size images
+          rm assets/images/thumbs/*.jpg
           for img in assets/images/fulls/*.jpg; do
             filename=$(basename "$img")
               magick "$img" -resize "500x" "assets/images/thumbs/$filename"
@@ -63,6 +63,7 @@ jobs:
         id: generate-list
         if: steps.check_changes.outputs.changes_detected == 'true'
         run: |
+          rm archive/README.md
           {
             echo "[//]: # (This file is managed by the update_image_archive_list.yml GitHub Action. Changes will be overwritten.)" 
             echo "# Image Archive Gallery"
@@ -72,7 +73,8 @@ jobs:
             for img in $(ls assets/images/fulls); do
               thumb="https://efpb.org/assets/images/thumbs/$img"
               full="https://efpb.org/assets/images/fulls/$img"
-              echo "- [![$img]($thumb)]($full)" 
+              echo "[![$img]($thumb)]($full)"
+              echo ""
             done
             echo "" 
             echo "Return to the [Main Gallery](https://efpb.org)" 
