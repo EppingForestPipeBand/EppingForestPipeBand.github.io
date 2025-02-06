@@ -2,9 +2,9 @@ locals {
   non_proxied_types = ["TXT", "MX"]
 
   mx_records = {
-    "mx.zoho.eu"  = "10"
-    "mx2.zoho.eu" = "20"
-    "mx3.zoho.eu" = "50"
+    "mx.zoho.com"  = "10"
+    "mx2.zoho.com" = "20"
+    "mx3.zoho.com" = "50"
   }
 
   dns_records = flatten(
@@ -36,7 +36,7 @@ locals {
 resource "cloudflare_record" "root" {
   for_each = { for record in local.dns_records : record.key => record }
 
-  zone_id = data.cloudflare_zone.zone.id
+  zone_id = data.cloudflare_zone.main.id
   name    = var.domain
   type    = each.value.type
   ttl     = 1
@@ -49,10 +49,15 @@ resource "cloudflare_record" "email" {
   for_each = local.mx_records
   name     = var.domain
   type     = "MX"
-  zone_id  = data.cloudflare_zone.zone.id
+  zone_id  = data.cloudflare_zone.main.id
   content  = each.key
   priority = each.value
   proxied  = false
 }
 
-# revert a record to 173.254.30.93
+resource "cloudflare_record" "dkim" {
+  name    = "zmail._domainkey"
+  type    = "TXT"
+  zone_id = data.cloudflare_zone.main.id
+  content = "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCFrH13L2fRlBHOu20jC0Bp7gYHWPG8sdXlU5SndG0FynyCJ80Kq//VrpsOFs2tGU5YsHsIXP1Kh4xBVYDssM6CtD5wiuFudunxVZXE42GIP3bA191mIbKSVk6W843uAl0TJ6IN8pTlMlRV/39jwMzpfWLvcX9+zfvmc+psNkhMRQIDAQAB"
+}

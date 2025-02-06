@@ -27,10 +27,6 @@ resource "github_repository" "website" {
     "performance",
     "pipe-band",
     "pipe-band-music",
-    "scotland",
-    "scottish-heritage",
-    "scottish-tradition",
-    "traditional-music",
   ]
   vulnerability_alerts = true
 

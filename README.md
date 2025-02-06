@@ -105,9 +105,7 @@ Images are stored in `assets/images/fulls/` and thumbnails are stored in `assets
 | Membership  | Action                                                                                                                                                                                                                           |
 |-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Non-members | We will gladly accept any contributions to the site. Please fork the repository and submit a pull request with your changes. We will review and merge them as soon as possible.                                                  |
-|
 | Members     | Please [submit an issue](https://github.com/EppingForestPipeBand/EppingForestPipeBand.github.io/issues/new) to request an organisation invite. Once you have been invited, you will be able to push directly to the main branch. |
-|
 
 ## Code of Conduct
 

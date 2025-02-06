@@ -82,6 +82,7 @@ jobs:
               full="https://efpb.org/assets/images/fulls/$img"
               echo "[![$img]($thumb)]($full)"
               echo ""
+              echo ""
             done
             echo "" 
             echo "Return to the [Main Gallery](https://efpb.org)" 
